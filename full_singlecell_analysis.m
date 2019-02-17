@@ -239,22 +239,6 @@ if bighead_data
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%  Bighead Dynamics   %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-if run_dynamics
-    dyn_data = bighead_dynamics(datpath,test_set,num_eyes,kernel_no,conditions);
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%  Stabilization Replay  %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-if run_replay
-    stab_replay(datpath);
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%     Bighead Fit     %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -274,14 +258,6 @@ if multidot_ext
         set_dir = '';
     end
     multidot_extraction([datpath,'/multidot/',set_dir],[filename,'_mdot'],0);
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%     Single Plane vs Volume analysis     %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-if run_volvssp
-    bighead_depthcomp1(monkey,cell_id,vol_datadir,sp_datadir,1);
 end
 
 %-------------------------------------------------------------------------%

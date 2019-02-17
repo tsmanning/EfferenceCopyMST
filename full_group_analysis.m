@@ -3,12 +3,14 @@
 
 % Define analysis options
 
+dataDir = '/home/tyler/matlab/data/';
+
 monkey = {'pbh','qbh','rbh'};
-monkinds = [];
+monkinds = [1:3];
 
 for i = monkinds
     %% Setup
-    cellspath = ['~/matlab/data/',monkey{i},'/'];
+    cellspath = [dataDir,monkey{i},'/'];
     poppath = [cellspath,'population_data/'];
     
     if ~exist(poppath,'dir')
@@ -23,10 +25,10 @@ for i = monkinds
 %     %   
 %     %       collectfigs(cellspath,mean_std,fits);
     
-%     thresholds = [0.05,0.5,4,0.05,1];
-%     
-%     [included_cells,cell_stats,excluded_cells,reasons] = ...
-%         cell_excluder2(cellspath,monkey{i},thresholds);
+    thresholds = [0.05,0.5,4,0.05,1];
+   
+    [included_cells,cell_stats,excluded_cells,reasons] = ...
+         cell_excluder(cellspath,monkey{i},thresholds);
     
 %     % collectfigs(cellspath,1,0);
 %     
@@ -38,12 +40,12 @@ for i = monkinds
 %     %    fitcutoff will nan out all parameters associated with fit rqrs less
 %     %    than number (same as threshold used for cell_excluder2
     
-    bh_grouptune3(cellspath,1,0.3);
+    bh_grouptune(cellspath,1,0.3);
     
 %     %% 3. Plot parameters: 
 %     %       [plot_group_params(poppath,gain,offset,band,shift)]
 %     
-%     % plot_group_params(poppath,1,1,1,1);
+    plot_group_params(poppath,1,1,1,1);
 %     
 %     %% 4. Run statistics: 
 %     %       group_stats(path,gain,offset,band,tuncent,savesuppress)
@@ -53,16 +55,8 @@ for i = monkinds
 %     %% 5. Run replay analysis:
 %     %       replay_stats(crossMonk,cellspath,saveSuppress);
 %     
-%     replay_stats(0,cellspath,0);
-%     
-%     %% 6. Run Volume vs. Single Plane analysis:
-%     %       paramname = {'Preferred Az Dir','Amplitude','Offset','Bandwidth'};
-%     %       bighead_depthcomp2(monkey,paramname_index);
-%     
-%     if exist([poppath,'/depth_comps/'],'dir') ~= 0   
-%         bighead_depthcomp2(poppath,monkey{i},1);
-%     end
-%     
+    replay_stats(0,cellspath,0);
+%       
     % Clean up
     if numel(monkinds) > 1
         close all
@@ -76,9 +70,9 @@ end
 %       [comb_params,comb_monks] = ...
 %           combine_monks(monk_dirs,monk_viewparams,sepplots,pars,saveSuppress);
 
-monk_dirs = {'/home/tyler/matlab/data/qbh/population_data/',...
-             '/home/tyler/matlab/data/pbh/population_data/',...
-             '/home/tyler/matlab/data/rbh/population_data/'};
+monk_dirs = {[dataDir,'qbh/population_data/'],...
+             [dataDir,'pbh/population_data/'],...
+             [dataDir,'rbh/population_data/']};
 monk_params = {'comb',...
                'monoc',...
                'comb'};
@@ -86,13 +80,13 @@ monk_params = {'comb',...
 
 %% 8. Run Monocular/Binocular comparison
 
-% params = {'amplitude','offset','bandwidth','tuning_center'};
+params = {'amplitude','offset','bandwidth','tuning_center'};
 
-% for i = 1:numel(monkey)
-%    mbset(i) = load([monk_dirs{i},'monobino']); 
-% end
-% 
-% [mbComp] = monobino_comp([mbset(1).monobino,mbset(2).monobino,mbset(3).monobino],4);
+for i = 1:numel(monkey)
+   mbset(i) = load([monk_dirs{i},'monobino']); 
+end
 
-% hgsave(mbComp,['/home/tyler/matlab/data/combined_monks/',params{4},'/mbComp']);
+[mbComp] = monobino_comp([mbset(1).monobino,mbset(2).monobino,mbset(3).monobino],4);
+
+hgsave(mbComp,[dataDir,'combined_monks/',params{4},'/mbComp']);
 
