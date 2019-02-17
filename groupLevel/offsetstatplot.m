@@ -5,7 +5,7 @@ function [normvfix,simvfix,stabvfix,stats] = offsetstatplot(data,cellinds,titles
 %        [normvfix,simvfix,stabvfix,stats] = offsetstatplot(data,cellinds,titlestr,ploton,sepplots)
 
 % Select cells of interest
-if ~isempty(cellinds) && isa(data,'struct')
+if ~isempty(cellinds) && or(isa(data,'struct'),isa(data,'popData'))
     % Select only indicated cell indices for structure subfields
     datfields = fieldnames(data);
     for i = 1:numel(datfields)
@@ -13,7 +13,7 @@ if ~isempty(cellinds) && isa(data,'struct')
     end
     offmat = data.offset_mat;
     c = -data.lr_index; % why negative?
-elseif isempty(cellinds) && isa(data,'struct')
+elseif isempty(cellinds) && or(isa(data,'struct'),isa(data,'popData'))
     offmat = data.offset_mat;
     c = -data.lr_index;
 elseif isa(data,'double')   % allow tuncent mat to be passed directly
