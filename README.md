@@ -1,1 +1,1 @@
-# This repository contains all analysis scripts and modeling code used for the "Retinal stabilization reveals limited influence of extraretinal signals on heading tuning in the medial superior temporal area" paper.
+# This repository contains all analysis scripts and modeling code used for the "Manning & Britten 2019 J Neurosci" paper.
